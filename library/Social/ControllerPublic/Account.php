@@ -44,7 +44,11 @@ class Social_ControllerPublic_Account extends XFCP_Social_ControllerPublic_Accou
 				$viewParams['profile'] = $profile = $helper->getProfile($visitor[$provider.'_auth_id']);
 				if($providerAssoc = $this->_getUserExternalModel()->getExternalAuthAssociation($provider, $visitor[$provider.'_auth_id']))
 				{
-					$viewParams['profile'] = array_merge($viewParams['profile'], unserialize($providerAssoc['extra_data']));
+					$permanentUserInfo = unserialize($providerAssoc['extra_data']);
+					if(is_array($permanentUserInfo))
+					{
+						$viewParams['profile'] = array_merge($viewParams['profile'], $permanentUserInfo);
+					}
 				}
 			}
 
