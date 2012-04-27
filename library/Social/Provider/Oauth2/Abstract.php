@@ -69,7 +69,9 @@ abstract class Social_Provider_Oauth2_Abstract extends Social_Provider_Abstract
 		}
 		catch (Zend_Http_Client_Exception $e)
 		{
-			return $this->_controller->responseException($e);
+			throw $this->_controller->responseException(
+				$this->_controller->responseError($e->getMessage())
+			);
 		}
 	}
 

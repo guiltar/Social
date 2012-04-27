@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="Social" title="Social" version_string="Beta 1" version_id="1" url="" install_callback_class="Social_Manufacture" install_callback_method="build" uninstall_callback_class="Social_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="Social" title="Social" version_string="Beta 2" version_id="1" url="" install_callback_class="Social_Manufacture" install_callback_method="build" uninstall_callback_class="Social_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
