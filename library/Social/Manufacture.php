@@ -87,14 +87,13 @@ class Social_Manufacture
 	{
 		$db = $this->_getDb();
 
-		if(!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'twitter_auth_id\''))
-		{
-			$db->query("
-				ALTER TABLE xf_user_profile
-				ADD twitter_auth_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0 AFTER facebook_auth_id
-			");
-		}
+		// Google
+		$db->query("
+			ALTER TABLE xf_user_profile
+			ADD google_auth_id VARBINARY(150) NOT NULL DEFAULT 0 AFTER facebook_auth_id
+		");
 
+		// VK
 		$db->query("
             UPDATE xf_user_external_auth SET provider = 'vk'
             WHERE provider = 'vkontakte'
@@ -115,10 +114,14 @@ class Social_Manufacture
         	");
 		}
 
-		$db->query("
-			ALTER TABLE xf_user_profile
-			ADD google_auth_id VARBINARY(150) NOT NULL DEFAULT 0 AFTER facebook_auth_id
-		");
+		// Twitter
+		if(!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'twitter_auth_id\''))
+		{
+			$db->query("
+				ALTER TABLE xf_user_profile
+				ADD twitter_auth_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0 AFTER facebook_auth_id
+			");
+		}
 	}
 
 	public static function destroy()
@@ -153,6 +156,11 @@ class Social_Manufacture
       			DROP twitter_auth_id,
       			DROP google_auth_id,
       			DROP vk_auth_id
+      		");
+
+		$db->query("
+                DELETE FROM xf_user_external_auth
+                WHERE provider = 'vk' OR provider = 'twitter' OR provider = 'google'
       		");
 	}
 }

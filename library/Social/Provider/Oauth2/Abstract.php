@@ -86,6 +86,6 @@ abstract class Social_Provider_Oauth2_Abstract extends Social_Provider_Abstract
 			. '&scope=' . urlencode($this->scope)
 			. '&state=profile'
 			. '&redirect_uri=' . urlencode($redirectUri)
-			. '&response_type=code&approval_prompt=force';
+			. '&response_type=code';
 	}
 }

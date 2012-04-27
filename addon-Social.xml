@@ -16,13 +16,39 @@
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="social" display_order="5"/>
+      <relation group_id="social" display_order="31"/>
     </option>
     <option option_id="googleAppSecret" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="social" display_order="6"/>
+      <relation group_id="social" display_order="32"/>
+    </option>
+    <option option_id="twitterConsumerKey" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="11"/>
+      <relation group_id="twitter" display_order="1"/>
+    </option>
+    <option option_id="twitterConsumerSecret" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="12"/>
+      <relation group_id="twitter" display_order="2"/>
+    </option>
+    <option option_id="vkAppId" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="21"/>
+    </option>
+    <option option_id="vkAppSecret" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="22"/>
     </option>
   </optiongroups>
   <permissions>
@@ -32,11 +58,19 @@
   </permissions>
   <phrases>
     <phrase title="option_googleAppId" version_id="0" version_string=""><![CDATA[Google Client ID]]></phrase>
-    <phrase title="option_googleAppId_explain" version_id="0" version_string=""></phrase>
+    <phrase title="option_googleAppId_explain" version_id="1" version_string="Beta 1"><![CDATA[The ID that is associated with your <a href="https://code.google.com/apis/console#access" target="_blank">Google application</a> for this domain.]]></phrase>
     <phrase title="option_googleAppSecret" version_id="0" version_string=""><![CDATA[Google Client Secret]]></phrase>
-    <phrase title="option_googleAppSecret_explain" version_id="0" version_string=""></phrase>
-    <phrase title="option_group_social" version_id="0" version_string=""><![CDATA[Social Network Integration]]></phrase>
+    <phrase title="option_googleAppSecret_explain" version_id="1" version_string="Beta 1"><![CDATA[The secret for the <a href="https://code.google.com/apis/console#access" target="_blank">Google application</a> you created for this domain.]]></phrase>
+    <phrase title="option_group_social" version_id="1" version_string="Beta 1"><![CDATA[Social]]></phrase>
     <phrase title="option_group_social_description" version_id="0" version_string=""></phrase>
+    <phrase title="option_twitterConsumerKey" version_id="1" version_string="Beta 1"><![CDATA[Twitter Consumer Key]]></phrase>
+    <phrase title="option_twitterConsumerKey_explain" version_id="1" version_string="Beta 1"><![CDATA[The Key that is associated with your <a href="https://dev.twitter.com/apps/new" target="_blank">Twitter application</a> for this domain.]]></phrase>
+    <phrase title="option_twitterConsumerSecret" version_id="1" version_string="Beta 1"><![CDATA[Twitter Consumer Secret]]></phrase>
+    <phrase title="option_twitterConsumerSecret_explain" version_id="1" version_string="Beta 1"><![CDATA[The secret for the <a href="https://dev.twitter.com/apps" target="_blank">Twitter application</a> application you created for this domain.]]></phrase>
+    <phrase title="option_vkAppId" version_id="1" version_string="Beta 1"><![CDATA[VK Application ID]]></phrase>
+    <phrase title="option_vkAppId_explain" version_id="1" version_string="Beta 1"><![CDATA[The ID that is associated with your <a href="http://vk.com/editapp?act=create" target="_blank">VK application</a> for this domain.]]></phrase>
+    <phrase title="option_vkAppSecret" version_id="1" version_string="Beta 1"><![CDATA[VK Application Secret]]></phrase>
+    <phrase title="option_vkAppSecret_explain" version_id="1" version_string="Beta 1"><![CDATA[The secret for the <a href="http://vk.com/apps?act=settings" target="_blank">VK application</a> application you created for this domain.]]></phrase>
     <phrase title="password_of_x_account_wish_to_associate_with_not_provider" version_id="0" version_string=""><![CDATA[This is the password of the {board_title} account that you wish to associate with. It is not your {provider} password.]]></phrase>
     <phrase title="social_associated_provider_account" version_id="0" version_string=""><![CDATA[Associated {provider} Account]]></phrase>
     <phrase title="social_associate_with_provider" version_id="0" version_string=""><![CDATA[Associate with {provider}]]></phrase>
@@ -429,15 +463,6 @@ $2]]></replace_value>
 <xen:if is="{$xenOptions.twitterConsumerKey}"><li><a href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
 <xen:if is="{$xenOptions.vkAppId}"><li><a href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
 <xen:if is="{$xenOptions.googleAppId}"><li><a href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace_value>
-    </modification>
-    <modification title="social_sidebar_visitor_panel" template_title="sidebar_visitor_panel" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="0">
-      <search_value><![CDATA[#<label for="LoginControl" id="SignupButton">.*?</label>#s]]></search_value>
-      <replace_value><![CDATA[$0
-        <xen:if is="{$xenOptions.twitterConsumerKey}">
-                <a href="{xen:link register/twitter, '', 'reg=1'}" style="text-decoration:none;display: inline-block;margin:0 45px;">
-   <img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-d.png" alt="Sign up with Twitter"}"/>
-</a>
-        </xen:if>]]></replace_value>
     </modification>
   </template_modifications>
 </addon>
