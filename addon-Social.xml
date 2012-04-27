@@ -61,7 +61,7 @@
     <phrase title="option_googleAppId_explain" version_id="1" version_string="Beta 1"><![CDATA[The ID that is associated with your <a href="https://code.google.com/apis/console#access" target="_blank">Google application</a> for this domain.]]></phrase>
     <phrase title="option_googleAppSecret" version_id="0" version_string=""><![CDATA[Google Client Secret]]></phrase>
     <phrase title="option_googleAppSecret_explain" version_id="1" version_string="Beta 1"><![CDATA[The secret for the <a href="https://code.google.com/apis/console#access" target="_blank">Google application</a> you created for this domain.]]></phrase>
-    <phrase title="option_group_social" version_id="1" version_string="Beta 1"><![CDATA[Social]]></phrase>
+    <phrase title="option_group_social" version_id="1" version_string="Beta 1"><![CDATA[Social Network Integration]]></phrase>
     <phrase title="option_group_social_description" version_id="0" version_string=""></phrase>
     <phrase title="option_twitterConsumerKey" version_id="1" version_string="Beta 1"><![CDATA[Twitter Consumer Key]]></phrase>
     <phrase title="option_twitterConsumerKey_explain" version_id="1" version_string="Beta 1"><![CDATA[The Key that is associated with your <a href="https://dev.twitter.com/apps/new" target="_blank">Twitter application</a> for this domain.]]></phrase>
