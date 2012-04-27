@@ -163,7 +163,7 @@ html body #loginBar li a.twitterLogin,
 html body #loginBar li a.vkLogin
 {
 	background-color: transparent;
-	background-image: url('/styles/social/buttons-sprite.png');
+	background-image: url('styles/social/buttons-sprite.png');
 	background-repeat: no-repeat;
 	width: 154px;
 	height: 26px;
