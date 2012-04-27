@@ -102,7 +102,7 @@ Associating with {provider} makes it easier to share interesting things with you
   <route_prefixes/>
   <style_properties/>
   <templates>
-    <template title="social_account_provider" version_id="0" version_string=""><![CDATA[<xen:title>{xen:phrase social_provider_integration, 'provider={$providerName}'}</xen:title>
+    <template title="social_account_provider" version_id="1" version_string="Beta 1"><![CDATA[<xen:title>{xen:phrase social_provider_integration, 'provider={$providerName}'}</xen:title>
 
 <xen:if is="{$profile}">
 	<form action="{xen:link 'account/{$provider}'}" method="post" class="xenForm">
@@ -111,7 +111,7 @@ Associating with {provider} makes it easier to share interesting things with you
 		<dl class="ctrlUnit">
 			<dt>{xen:phrase social_associated_provider_account, 'provider={$providerName}'}:</dt>
 			<dd>
-				<xen:if is="{$profile.avatar_url}"><a href="{$profile.profile_url}" class="avatar NoOverlay"><img src="{$profile.avatar_url}" alt="" width="50px" height="50px" /></a></xen:if>
+				<xen:if is="{$profile.avatar_url}"><a href="{$profile.profile_url}" class="avatar NoOverlay"><img src="{$profile.avatar_url}" alt="" width="100px" /></a></xen:if>
 				<a href="{$profile.profile_url}"><xen:if is="{$profile.username}">{$profile.username}<xen:elseif is="{$profile.email}"/>{$profile.email}<xen:else/>{xen:phrase unknown_account}</xen:if></a>
 			</dd>
 		</dl>
