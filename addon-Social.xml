@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="Social" title="Social" version_string="Beta 1" version_id="1" url="" install_callback_class="Social_Manufacture" install_callback_method="build" uninstall_callback_class="Social_Manufacture" uninstall_callback_method="destroy">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Social_Listener" callback_method="loadClassController" active="1" description=""/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="social" display_order="209" debug_only="0"/>
+    <option option_id="googleAppId" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="5"/>
+    </option>
+    <option option_id="googleAppSecret" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="6"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_googleAppId" version_id="0" version_string=""><![CDATA[Google Client ID]]></phrase>
+    <phrase title="option_googleAppId_explain" version_id="0" version_string=""></phrase>
+    <phrase title="option_googleAppSecret" version_id="0" version_string=""><![CDATA[Google Client Secret]]></phrase>
+    <phrase title="option_googleAppSecret_explain" version_id="0" version_string=""></phrase>
+    <phrase title="option_group_social" version_id="0" version_string=""><![CDATA[Social Network Integration]]></phrase>
+    <phrase title="option_group_social_description" version_id="0" version_string=""></phrase>
+    <phrase title="password_of_x_account_wish_to_associate_with_not_provider" version_id="0" version_string=""><![CDATA[This is the password of the {board_title} account that you wish to associate with. It is not your {provider} password.]]></phrase>
+    <phrase title="social_associated_provider_account" version_id="0" version_string=""><![CDATA[Associated {provider} Account]]></phrase>
+    <phrase title="social_associate_with_provider" version_id="0" version_string=""><![CDATA[Associate with {provider}]]></phrase>
+    <phrase title="social_authentication_failed" version_id="0" version_string=""><![CDATA[Authentication failed]]></phrase>
+    <phrase title="social_disassociate_provider_account" version_id="0" version_string=""><![CDATA[Disassociate {provider} account]]></phrase>
+    <phrase title="social_disassociating_with_provider_will_cause_password_generated_emailed_x" version_id="0" version_string=""><![CDATA[Disassociating with {provider} will cause a password to be generated for your account and emailed to {email}.]]></phrase>
+    <phrase title="social_google" version_id="0" version_string=""><![CDATA[Google]]></phrase>
+    <phrase title="social_google_integration" version_id="0" version_string=""><![CDATA[Google Integration]]></phrase>
+    <phrase title="social_invalid_access_token" version_id="0" version_string=""><![CDATA[Invalid access token]]></phrase>
+    <phrase title="social_invalid_authorization_code" version_id="0" version_string=""><![CDATA[Invalid authorization code]]></phrase>
+    <phrase title="social_login_with_google" version_id="0" version_string=""><![CDATA[Login with Google]]></phrase>
+    <phrase title="social_login_with_twitter" version_id="0" version_string=""><![CDATA[Login with Twitter]]></phrase>
+    <phrase title="social_login_with_vk" version_id="0" version_string=""><![CDATA[Login with VK]]></phrase>
+    <phrase title="social_provider_integration" version_id="0" version_string=""><![CDATA[{provider} integration]]></phrase>
+    <phrase title="social_provider_not_properly_configured" version_id="0" version_string=""><![CDATA[Provider not properly configured.]]></phrase>
+    <phrase title="social_requires_minimum_xenforo_version" version_id="0" version_string=""><![CDATA[Minimum XenForo version required: {version}]]></phrase>
+    <phrase title="social_requires_tms" version_id="0" version_string=""><![CDATA[<a href="http://xenforo.com/community/resources/template-modification-system-tms.293/">Template Modification System</a> required]]></phrase>
+    <phrase title="social_sign_up_with_provider" version_id="0" version_string=""><![CDATA[Sign Up with {provider}]]></phrase>
+    <phrase title="social_twitter" global_cache="1" version_id="0" version_string=""><![CDATA[Twitter]]></phrase>
+    <phrase title="social_twitter_integration" version_id="0" version_string=""><![CDATA[Twitter Integration]]></phrase>
+    <phrase title="social_unspecified_error" version_id="0" version_string=""><![CDATA[Unspecified error.]]></phrase>
+    <phrase title="social_user_not_connected_to_provider" version_id="0" version_string=""><![CDATA[User not connected to the provider.]]></phrase>
+    <phrase title="social_vk" version_id="0" version_string=""><![CDATA[VK]]></phrase>
+    <phrase title="social_vk_integration" version_id="0" version_string=""><![CDATA[VK Integration]]></phrase>
+    <phrase title="social_your_account_is_not_currently_associated_with_provider_account" version_id="0" version_string=""><![CDATA[Your account is not currently associated with a {provider} account.
+
+Associating with {provider} makes it easier to share interesting things with your friends and import content from {provider} here.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="social_account_provider" version_id="0" version_string=""><![CDATA[<xen:title>{xen:phrase social_provider_integration, 'provider={$providerName}'}</xen:title>
+
+<xen:if is="{$profile}">
+	<form action="{xen:link 'account/{$provider}'}" method="post" class="xenForm">
+		
+		<xen:hook name="account_provider_associated">
+		<dl class="ctrlUnit">
+			<dt>{xen:phrase social_associated_provider_account, 'provider={$providerName}'}:</dt>
+			<dd>
+				<xen:if is="{$profile.avatar_url}"><a href="{$profile.profile_url}" class="avatar NoOverlay"><img src="{$profile.avatar_url}" alt="" width="50px" height="50px" /></a></xen:if>
+				<a href="{$profile.profile_url}"><xen:if is="{$profile.username}">{$profile.username}<xen:elseif is="{$profile.email}"/>{$profile.email}<xen:else/>{xen:phrase unknown_account}</xen:if></a>
+			</dd>
+		</dl>
+		</xen:hook>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><ul>
+				<li>
+					<label><input type="checkbox" name="disassociate" value="1" id="ctrl_disassociate" class="Disabler" /> {xen:phrase social_disassociate_provider_account, 'provider={$providerName}'}</label>
+					<ul id="ctrl_disassociate_Disabler">
+						<li><input type="submit" class="button" name="disassociate_confirm" value="{xen:phrase confirm_disassociation}" /></li>
+					</ul>
+					<xen:if is="!{$hasPassword}">
+						<p class="explain">{xen:phrase social_disassociating_with_provider_will_cause_password_generated_emailed_x, 'email={$visitor.email}', 'provider={$providerName}'}</p>
+					</xen:if>
+				</li>
+			</ul></dd>
+		</dl>
+	
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+		<input type="hidden" name="_xfConfirm" value="1" />
+	</form>
+<xen:else />
+	<form action="{xen:link account}" method="post" class="xenForm">
+	
+		<xen:hook name="account_provider_not_associated">
+		<dl class="ctrlUnit">
+			<dt></dt>
+			<dd>{xen:string nl2br, {xen:phrase social_your_account_is_not_currently_associated_with_provider_account, 'provider={$providerName}'}}</dd>
+		</dl>
+		</xen:hook>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><a href="{xen:link 'register/{$provider}', '', 'reg=1', 'assoc=1'}" class="button primary">{xen:phrase social_associate_with_provider, 'provider={$providerName}'}</a></dd>
+		</dl>		
+	</form>
+</xen:if>]]></template>
+    <template title="social_login_buttons.css" version_id="0" version_string=""><![CDATA[html body a.googleLogin,
+html body a.fbLogin,
+html body a.linkedInLogin,
+html body a.twitterLogin,
+html body a.vkLogin,
+html body #loginBar li a.googleLogin,
+html body #loginBar li a.fbLogin,
+html body #loginBar li a.linkedInLogin,
+html body #loginBar li a.twitterLogin,
+html body #loginBar li a.vkLogin
+{
+	background-color: transparent;
+	background-image: url('/styles/social/buttons-sprite.png');
+	background-repeat: no-repeat;
+	width: 154px;
+	height: 26px;
+	display: block;
+	outline: 0;
+	text-decoration: none;
+	text-align: center;
+	text-indent: 20px;
+}
+	html body a.googleLogin:hover,
+	html body a.fbLogin:hover,
+	html body a.linkedInLogin:hover,
+	html body a.twitterLogin:hover,
+	html body a.vkLogin:hover,
+	html body #loginBar li a.googleLogin:hover,
+	html body #loginBar li a.fbLogin:hover,
+	html body #loginBar li a.linkedInLogin:hover,
+	html body #loginBar li a.twitterLogin:hover,
+	html body #loginBar li a.vkLogin:hover
+	{
+		text-decoration: none;
+	}
+	html body .googleLogin span,
+	html body .fbLogin span,
+	html body .linkedInLogin span,
+	html body .twitterLogin span,
+	html body .vkLogin span,
+	html body #loginBar li .googleLogin span,
+	html body #loginBar li .fbLogin span,
+	html body #loginBar li .linkedInLogin span,
+	html body #loginBar li .twitterLogin span,
+	html body #loginBar li .vkLogin span
+	{
+		color: #fff;
+		font-size: 11px;
+		font-weight: 400;
+		font-family: inherit;
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		line-height: 26px;
+		display: inline;
+		text-shadow: 0 1px rgba(0,0,0,0.25);
+	}
+		html body .googleLogin:active span,
+		html body .fbLogin:active span,
+		html body .linkedInLogin:active span,
+		html body .twitterLogin:active span,
+		html body .vkLogin:active span
+		{
+			color: rgba(255,255,255,0.5);
+			background: transparent;
+			border: none;
+			text-shadow: 0 1px rgba(0,0,0,0.1);
+		}
+
+
+html body a.googleLogin
+{
+	background-position: 0 0;
+}
+	html body a.googleLogin:hover
+	{
+		background-position: 0 -26px;
+	}
+	html body a.googleLogin:active
+	{
+		background-position: 0 -52px;
+	}
+
+html body a.fbLogin,
+html body #loginBar li a.fbLogin
+{
+	background-position: -154px 0;
+}
+	html body a.fbLogin:hover,
+	html body #loginBar li a.fbLogin:hover
+	{
+		background-position: -154px -26px;
+	}
+	html body a.fbLogin:active,
+	html body #loginBar li a.fbLogin:active
+	{
+		background-position: -154px -52px;
+	}
+
+html body a.vkLogin
+{
+	background-position: -308px 0;
+}
+	html body a.vkLogin:hover
+	{
+		background-position: -308px -26px;
+	}
+	html body a.vkLogin:active
+	{
+		background-position: -308px -52px;
+	}
+
+html body a.twitterLogin
+{
+	background-position: -462px 0;
+}
+	html body a.twitterLogin:hover
+	{
+		background-position: -462px -26px;
+	}
+	html body a.twitterLogin:active
+	{
+		background-position: -462px -52px;
+	}
+
+html body a.linkedInLogin
+{
+	background-position: -616px 0;
+}
+	html body a.linkedInLogin:hover
+	{
+		background-position: -616px -26px;
+	}
+	html body a.linkedInLogin:active
+	{
+		background-position: -616px -52px;
+	}]]></template>
+    <template title="social_register_provider" version_id="0" version_string=""><![CDATA[<xen:title>{xen:phrase social_sign_up_with_provider, 'provider={$providerName}'}</xen:title>
+	
+<form action="{xen:link 'register/{$provider}-register'}" method="post" class="xenForm AutoValidator"
+	data-fieldValidatorUrl="{xen:link register/validate-field}"
+	data-OptInOut="OptIn"
+	data-normalSubmit="1">
+
+<ul class="tabs Tabs" data-panes="#ProviderTabs > li">
+	<xen:if is="!{$associateOnly}"><li><a>{xen:phrase create_new_account}</a></li></xen:if>
+	<li><a>{xen:phrase associate_existing_account}</a></li>
+</ul>
+
+<ul id="ProviderTabs">
+	
+	<xen:if is="!{$associateOnly}">
+	<li>
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_username">{xen:phrase name}:</label></dt>
+			<dd>
+				<input type="text" name="username" value="{$profile.username}" class="textCtrl OptIn" id="ctrl_username" autofocus="true" autocomplete="off" />
+				<p class="explain">{xen:phrase this_is_name_that_will_be_shown_with_your_messages}</p>
+			</dd>
+		</dl>
+	
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_email">{xen:phrase email}:</label></dt>
+			<dd>
+				<input type="text" name="email" value="{$profile.email}" class="textCtrl OptIn" id="ctrl_email" autofocus="true" />	
+			</dd>
+		</dl>
+		
+		<xen:include template="custom_fields_edit" />
+	
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_timezone">{xen:phrase time_zone}:</label></dt>
+			<dd>
+				<select name="timezone" class="textCtrl AutoTimeZone OptOut" id="ctrl_timezone">
+					<xen:foreach loop="$timeZones" key="$identifier" value="$name">
+						<option value="{$identifier}" {xen:selected "{$identifier} == {$xenOptions.guestTimeZone}"}>{$name}</option>
+					</xen:foreach>
+				</select>
+			</dd>
+		</dl>
+
+                <xen:if is="{$dobRequired}">
+		<dl class="ctrlUnit OptOut">
+			<dt>{xen:phrase date_of_birth}:</dt>
+			<dd>
+				<xen:include template="helper_birthday_input">
+					<xen:map from="$fields" to="$user" />
+				</xen:include>
+				<p class="explain">{xen:phrase your_date_of_birth_is_required}</p>
+			</dd>
+		</dl>
+                </xen:if>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd>
+				<xen:if is="{$tosUrl}">
+					<ul>
+						<li>
+							{xen:phrase i_agree_to_terms_and_rules, 'checkbox=<input type="checkbox" name="agree" value="1" id="ctrl_agree" class="Disabler" />', 'terms_attributes=href="{$tosUrl}" target="_blank"'}
+							<ul id="ctrl_agree_Disabler">
+								<li><input type="submit" value="{xen:phrase sign_up}" accesskey="s" class="button primary" /></li>
+							</ul>						
+						</li>
+					</ul>
+				<xen:else />
+					<input type="submit" value="{xen:phrase sign_up}" accesskey="s" class="button primary" />
+				</xen:if>
+				
+				<p class="explain" style="margin-top: 10px">{xen:phrase will_automatically_associate_profile_picture_home_page_etc}</p>
+			</dd>
+		</dl>
+	
+	</li>
+	</xen:if>
+
+	<li>
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_associate_login">{xen:phrase associate_with}:</label></dt>
+			<dd>
+				<xen:if is="{$existingUser}">
+					{$existingUser.username}
+					<input type="hidden" name="associate_login" value="{$existingUser.username}" />
+					<input type="hidden" name="force_assoc" value="1" />
+				<xen:else />
+					<input type="text" name="associate_login" class="textCtrl" id="ctrl_associate_login" />
+				</xen:if>
+			</dd>
+		</dl>
+		
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_associate_password">{xen:phrase password}:</label></dt>
+			<dd>
+				<input type="password" name="associate_password" class="textCtrl" id="ctrl_associate_password" />
+				<p class="explain">{xen:phrase password_of_x_account_wish_to_associate_with_not_provider, 'provider={$providerName}', 'board_title={$xenOptions.boardTitle}'}</p>
+			</dd>
+		</dl>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><input type="submit" value="{xen:phrase associate_account}" name="associate" accesskey="a" class="button primary" /></dd>
+		</dl>
+	</li>
+
+</ul>
+
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+<input type="hidden" name="redirect" value="{$redirect}" />
+</form>]]></template>
+  </templates>
+  <bb_code_media_sites/>
+  <template_modifications>
+    <modification title="social_account_wrapper_sidebar_settings" template_title="account_wrapper" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+      <search_value><![CDATA[#{xen:phrase facebook_integration}</a></li></xen:if>#s]]></search_value>
+      <replace_value><![CDATA[$0
+<xen:if is="{$xenOptions.twitterConsumerKey}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/twitter'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.vkAppId}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/vk'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.googleAppId}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/google'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace_value>
+    </modification>
+    <modification title="social_helper_login_form" template_title="helper_login_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+      <search_value><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></search_value>
+      <replace_value><![CDATA[<xen:require css="social_login_buttons.css" />
+
+<dl class="ctrlUnit">
+	<xen:if is="{$xenOptions.facebookAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/facebook, '', 'reg=1'}" class="fbLogin"><span>{xen:phrase login_with_facebook}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.twitterConsumerKey}">
+		<dt></dt>
+		<dd><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.vkAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.googleAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/google, '', 'reg=1'}" class="googleLogin"><span>{xen:phrase social_login_with_google}</span></a></dd>
+	</xen:if>
+</dl> ]]></replace_value>
+    </modification>
+    <modification title="social_login_bar_item" template_title="login_bar_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+      <search_value><![CDATA[#<xen:hook name="login_bar_eauth_set">.*<xen:if is="{\$xenOptions.facebookAppId}">(.*?<xen:hook name="login_bar_eauth_items">.*?)(</xen:hook>)#s]]></search_value>
+      <replace_value><![CDATA[<xen:hook name="login_bar_eauth_set"><xen:if is="{$xenOptions.facebookAppId} or {$xenOptions.twitterConsumerKey} or {$xenOptions.vkAppId} or {$xenOptions.googleAppId}">
+$1
+	<xen:require css="social_login_buttons.css" />
+
+	<xen:if is="{$xenOptions.twitterConsumerKey}">
+		<li><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></li>
+	</xen:if>
+	<xen:if is="{$xenOptions.vkAppId}">
+		<li><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></li>
+	</xen:if>
+	<xen:if is="{$xenOptions.googleAppId}">
+		<li><a href="{xen:link register/google, '', 'reg=1'}" class="googleLogin"><span>{xen:phrase social_login_with_google}</span></a></li>
+	</xen:if>
+$2]]></replace_value>
+    </modification>
+    <modification title="social_navigation_visitor_tab_link" template_title="navigation_visitor_tab" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+      <search_value><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></search_value>
+      <replace_value><![CDATA[$0
+<xen:if is="{$xenOptions.twitterConsumerKey}"><li><a href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.vkAppId}"><li><a href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.googleAppId}"><li><a href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace_value>
+    </modification>
+    <modification title="social_sidebar_visitor_panel" template_title="sidebar_visitor_panel" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="0">
+      <search_value><![CDATA[#<label for="LoginControl" id="SignupButton">.*?</label>#s]]></search_value>
+      <replace_value><![CDATA[$0
+        <xen:if is="{$xenOptions.twitterConsumerKey}">
+                <a href="{xen:link register/twitter, '', 'reg=1'}" style="text-decoration:none;display: inline-block;margin:0 45px;">
+   <img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-d.png" alt="Sign up with Twitter"}"/>
+</a>
+        </xen:if>]]></replace_value>
+    </modification>
+  </template_modifications>
+</addon>
