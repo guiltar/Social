@@ -26,10 +26,7 @@ abstract class Social_Provider_Oauth_Abstract extends Social_Provider_Abstract
 	}
 
 	/**
-	 * @param string $url
-	 * @param string $code
-	 *
-	 * @return array|false Array of info (may be error); false if Provider integration not active
+	 * @return Zend_Oauth_Exception
 	 */
 	public function getAccessToken($redirectUri)
 	{
