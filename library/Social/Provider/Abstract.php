@@ -13,7 +13,7 @@ abstract class Social_Provider_Abstract extends XenForo_ControllerHelper_Abstrac
 	{
 		$token = $this->getAccessToken($redirectUri);
 
-		if(!$this->isValidToken($token))
+		if (!$this->isValidToken($token))
 		{
 			throw $this->_controller->responseException(
 				$this->_controller->responseError(new XenForo_Phrase('social_invalid_access_token'))

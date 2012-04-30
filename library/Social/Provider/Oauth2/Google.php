@@ -10,11 +10,11 @@ class Social_Provider_Oauth2_Google extends Social_Provider_Oauth2_Abstract
 	public $authUrl = 'https://accounts.google.com/o/oauth2/auth';
 	public $scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
 
-	public  function getProfile($authId = null)
+	public function getProfile($authId = null)
 	{
 		$client = XenForo_Helper_Http::getClient('https://www.googleapis.com/oauth2/v1/userinfo');
 		$client->setParameterGet('scope', $this->scope);
-		if(isset($this->token['access_token']))
+		if (isset($this->token['access_token']))
 			$client->setParameterGet('access_token', $this->token['access_token']);
 
 		$response = json_decode($client->request('GET')->getBody(), true);

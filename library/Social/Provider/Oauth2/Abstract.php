@@ -14,8 +14,8 @@ abstract class Social_Provider_Oauth2_Abstract extends Social_Provider_Abstract
 	protected function _constructSetup()
 	{
 		$options = XenForo_Application::getOptions();
-		$this->id = $options->get($this->provider.'AppId');
-		$this->secret = $options->get($this->provider.'AppSecret');
+		$this->id = $options->get($this->provider . 'AppId');
+		$this->secret = $options->get($this->provider . 'AppSecret');
 
 		if (!$this->id || !$this->secret)
 		{

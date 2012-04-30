@@ -17,15 +17,15 @@ class Social_Provider_Oauth_Twitter extends Social_Provider_Oauth_Abstract
 	public function getProfile($authId = null)
 	{
 		//$this->search();
-		if(!$authId) $authId = $this->token->getParam('user_id');
+		if (!$authId) $authId = $this->token->getParam('user_id');
 		$client = XenForo_Helper_Http::getClient('https://api.twitter.com/1/users/show.json');
 		$client->setParameterGet('user_id', $authId);
 		$response = json_decode($client->request('GET')->getBody(), true);
 
 		$profile['auth_id'] = isset($response['id']) ? $response['id'] : 0;
 		$profile['username'] = isset($response['screen_name']) ? $response['screen_name'] : '';
-		$profile['profile_url'] = 'https://twitter.com/#!/'.$profile['username'];
-		$profile['avatar_url'] = 'https://api.twitter.com/1/users/profile_image?size=original&user_id='.$profile['auth_id'];
+		$profile['profile_url'] = 'https://twitter.com/#!/' . $profile['username'];
+		$profile['avatar_url'] = 'https://api.twitter.com/1/users/profile_image?size=original&user_id=' . $profile['auth_id'];
 
 		return $profile;
 	}

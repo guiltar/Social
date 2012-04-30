@@ -21,9 +21,9 @@ class Social_ControllerPublic_Account extends XFCP_Social_ControllerPublic_Accou
 			));
 			if ($disassociate['disassociate'] && $disassociate['disassociate_confirm'])
 			{
-				XenForo_Helper_Cookie::setCookie($provider.'AuthId', 0, 14 * 86400);
+				XenForo_Helper_Cookie::setCookie($provider . 'AuthId', 0, 14 * 86400);
 				$this->getModelFromCache('XenForo_Model_UserExternal')->deleteExternalAuthAssociation(
-					$provider, $visitor[$provider.'_auth_id'], $visitor['user_id']
+					$provider, $visitor[$provider . '_auth_id'], $visitor['user_id']
 				);
 
 				if (!$auth->hasPassword())
@@ -34,18 +34,18 @@ class Social_ControllerPublic_Account extends XFCP_Social_ControllerPublic_Accou
 
 			return $this->responseRedirect(
 				XenForo_ControllerResponse_Redirect::SUCCESS,
-				XenForo_Link::buildPublicLink('account/'.$provider)
+				XenForo_Link::buildPublicLink('account/' . $provider)
 			);
 		}
 		else
 		{
-			if ($visitor[$helper->provider.'_auth_id'])
+			if ($visitor[$helper->provider . '_auth_id'])
 			{
-				$viewParams['profile'] = $profile = $helper->getProfile($visitor[$provider.'_auth_id']);
-				if($providerAssoc = $this->_getUserExternalModel()->getExternalAuthAssociation($provider, $visitor[$provider.'_auth_id']))
+				$viewParams['profile'] = $profile = $helper->getProfile($visitor[$provider . '_auth_id']);
+				if ($providerAssoc = $this->_getUserExternalModel()->getExternalAuthAssociation($provider, $visitor[$provider . '_auth_id']))
 				{
 					$permanentUserInfo = unserialize($providerAssoc['extra_data']);
-					if(is_array($permanentUserInfo))
+					if (is_array($permanentUserInfo))
 					{
 						$viewParams['profile'] = array_merge($viewParams['profile'], $permanentUserInfo);
 					}
@@ -54,7 +54,7 @@ class Social_ControllerPublic_Account extends XFCP_Social_ControllerPublic_Accou
 
 			$viewParams['hasPassword'] = $auth->hasPassword();
 			$viewParams['provider'] = $provider;
-			$viewParams['providerName'] = new XenForo_Phrase('social_'.$provider);
+			$viewParams['providerName'] = new XenForo_Phrase('social_' . $provider);
 
 			return $this->_getWrapper(
 				'account', $provider,

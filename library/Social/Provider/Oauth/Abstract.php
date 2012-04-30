@@ -13,14 +13,14 @@ abstract class Social_Provider_Oauth_Abstract extends Social_Provider_Abstract
 	protected function _constructSetup()
 	{
 		$options = XenForo_Application::getOptions();
-		$this->key = $options->get($this->provider.'ConsumerKey');
-		$this->secret = $options->get($this->provider.'ConsumerSecret');
+		$this->key = $options->get($this->provider . 'ConsumerKey');
+		$this->secret = $options->get($this->provider . 'ConsumerSecret');
 
 		if (!$this->key || !$this->secret)
 		{
 			throw $this->_controller->responseException($this->_controller->responseError(new XenForo_Phrase(
 					'social_provider_not_properly_configured',
-					array('provider'=> new XenForo_Phrase('social_'.$this->provider))))
+					array('provider' => new XenForo_Phrase('social_' . $this->provider))))
 			);
 		}
 	}
@@ -62,11 +62,11 @@ abstract class Social_Provider_Oauth_Abstract extends Social_Provider_Abstract
 	protected function _getConfig($redirectUri)
 	{
 		return array(
-			'callbackUrl'	=> $redirectUri,
-			'siteUrl'		=> $this->siteUrl,
-			'consumerKey'	=> $this->key,
-			'consumerSecret'=> $this->secret,
-			'authorizeUrl'  => $this->authUrl
+			'callbackUrl' => $redirectUri,
+			'siteUrl' => $this->siteUrl,
+			'consumerKey' => $this->key,
+			'consumerSecret' => $this->secret,
+			'authorizeUrl' => $this->authUrl
 		);
 	}
 }

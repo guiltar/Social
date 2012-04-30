@@ -5,8 +5,8 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 	/**
 	 * Displays a form to join using Google or logs in an existing account.
-	 *  @param $helper Social_Provider
-	 *  @return XenForo_ControllerResponse_Abstract
+	 * @param $helper Social_Provider
+	 * @return XenForo_ControllerResponse_Abstract
 	 */
 	protected function _getProviderResponse(Social_Provider_Abstract $helper)
 	{
@@ -14,11 +14,11 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		$assocUserId = $associate ? XenForo_Visitor::getUserId() : 0;
 		$redirect = $this->_input->filterSingle('redirect', XenForo_Input::STRING);
 
-		$redirectUri = XenForo_Link::buildPublicLink('canonical:register/'.$helper->provider, false, array(
+		$redirectUri = XenForo_Link::buildPublicLink('canonical:register/' . $helper->provider, false, array(
 			'assoc' => ($associate ? $associate : false)
 		));
 
-		if($associate && !$assocUserId)
+		if ($associate && !$assocUserId)
 		{
 			return $this->responseError(new XenForo_Phrase('action_not_completed_because_no_longer_logged_in'));
 		}
@@ -27,7 +27,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		{
 			$redirect = XenForo_Link::convertUriToAbsoluteUri($this->getDynamicRedirect());
 
-			XenForo_Application::getSession()->set($helper->provider.'Redirect', $redirect);
+			XenForo_Application::getSession()->set($helper->provider . 'Redirect', $redirect);
 
 			return $this->responseRedirect(
 				XenForo_ControllerResponse_Redirect::RESOURCE_CANONICAL,
@@ -37,14 +37,14 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		$token = $helper->authenticate($redirectUri);
 		$profile = $helper->getProfile();
-		$provider=$helper->provider;
+		$provider = $helper->provider;
 
-		if(!$profile['auth_id'])
+		if (!$profile['auth_id'])
 		{
 			return $this->responseError(new XenForo_Phrase('social_authentication_failed'));
 		}
 
-		XenForo_Application::getSession()->set($helper->provider.'_token', $token);
+		XenForo_Application::getSession()->set($helper->provider . '_token', $token);
 
 		$userModel = $this->_getUserModel();
 		$userExternalModel = $this->_getUserExternalModel();
@@ -53,14 +53,14 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		//die(Zend_Debug::dump($providerAssoc));
 		if ($providerAssoc && $userModel->getUserById($providerAssoc['user_id']))
 		{
-			$redirect = XenForo_Application::getSession()->get($provider.'Redirect');
+			$redirect = XenForo_Application::getSession()->get($provider . 'Redirect');
 
-			XenForo_Helper_Cookie::setCookie($provider.'AuthId', $profile['auth_id'], 14 * 86400);
+			XenForo_Helper_Cookie::setCookie($provider . 'AuthId', $profile['auth_id'], 14 * 86400);
 			$userModel->setUserRememberCookie($providerAssoc['user_id']);
 			XenForo_Application::getSession()->changeUserId($providerAssoc['user_id']);
 			XenForo_Visitor::setup($providerAssoc['user_id']);
 
-			XenForo_Application::getSession()->remove($provider.'Redirect');
+			XenForo_Application::getSession()->remove($provider . 'Redirect');
 			if (!$redirect)
 			{
 				$redirect = $this->getDynamicRedirect(false, false);
@@ -72,7 +72,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 			);
 		}
 
-		XenForo_Helper_Cookie::setCookie($provider.'AuthId', 0, 14 * 86400);
+		XenForo_Helper_Cookie::setCookie($provider . 'AuthId', 0, 14 * 86400);
 
 		parent::_assertBoardActive($provider);
 
@@ -93,9 +93,9 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 			return $this->responseView('Social_Google_ViewPublic_Register_Google', 'social_register_provider', array(
 				'associateOnly' => true,
 
-				'profile'  => $profile,
+				'profile' => $profile,
 				'provider' => $provider,
-				'providerName' => new XenForo_Phrase('social_'.$provider),
+				'providerName' => new XenForo_Phrase('social_' . $provider),
 
 				'existingUser' => $existingUser,
 				'emailMatch' => $emailMatch,
@@ -121,9 +121,9 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		return $this->responseView('Social_Google_ViewPublic_Register_Google', 'social_register_provider', array(
 
-			'profile'  => $profile,
+			'profile' => $profile,
 			'provider' => $provider,
-			'providerName' => new XenForo_Phrase('social_'.$provider),
+			'providerName' => new XenForo_Phrase('social_' . $provider),
 
 			'redirect' => $redirect,
 
@@ -140,8 +140,8 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 	/**
 	 *  Registers a new account (or associates with an existing one) using Google.
-	 *  @param $helper Social_Provider_Abstract
-	 *  @return XenForo_ControllerResponse_Abstract
+	 * @param $helper Social_Provider_Abstract
+	 * @return XenForo_ControllerResponse_Abstract
 	 */
 	protected function _getProviderRegisterResponse(Social_Provider_Abstract $helper)
 	{
@@ -149,7 +149,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		$provider = $helper->provider;
 
-		$token = XenForo_Application::getSession()->get($helper->provider.'_token');
+		$token = XenForo_Application::getSession()->get($helper->provider . '_token');
 		if (!$helper->isValidToken($token))
 		{
 			return $this->responseError(new XenForo_Phrase('social_invalid_access_token'));
@@ -159,7 +159,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		$profile = $helper->getProfile();
 		$permanentInfo = $helper->getPermanentUserInfo($profile);
 
-		if(!$profile['auth_id'])
+		if (!$profile['auth_id'])
 		{
 			return $this->responseError(new XenForo_Phrase('social_authentication_failed'));
 		}
@@ -193,13 +193,13 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 			}
 
 			$userExternalModel->updateExternalAuthAssociation($provider, $profile['auth_id'], $userId, null, $permanentInfo);
-			XenForo_Helper_Cookie::setCookie($provider.'AuthId', $profile['auth_id'], 14 * 86400);
+			XenForo_Helper_Cookie::setCookie($provider . 'AuthId', $profile['auth_id'], 14 * 86400);
 
-			$redirect = XenForo_Application::getSession()->get($provider.'Redirect');
+			$redirect = XenForo_Application::getSession()->get($provider . 'Redirect');
 			XenForo_Application::getSession()->changeUserId($userId);
 			XenForo_Visitor::setup($userId);
 
-			XenForo_Application::getSession()->remove($provider.'Redirect');
+			XenForo_Application::getSession()->remove($provider . 'Redirect');
 			if (!$redirect)
 			{
 				$redirect = $this->getDynamicRedirect(false, false);
@@ -214,12 +214,12 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		$this->_assertRegistrationActive();
 
 		$data = $this->_input->filter(array(
-			'username'   => XenForo_Input::STRING,
-			'email'      => XenForo_Input::STRING,
-			'timezone'   => XenForo_Input::STRING,
-			'dob_day'    => XenForo_Input::UINT,
-			'dob_month'  => XenForo_Input::UINT,
-			'dob_year'   => XenForo_Input::UINT,
+			'username' => XenForo_Input::STRING,
+			'email' => XenForo_Input::STRING,
+			'timezone' => XenForo_Input::STRING,
+			'dob_day' => XenForo_Input::UINT,
+			'dob_month' => XenForo_Input::UINT,
+			'dob_year' => XenForo_Input::UINT,
 		));
 
 		$this->_assertSuitableAge($data, XenForo_Application::getOptions()->get('registrationSetup', 'requireDob'));
@@ -240,7 +240,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		/* @var $writer XenForo_DataWriter_User */
 		$writer = XenForo_DataWriter::create('XenForo_DataWriter_User');
-		if($registrationDefaults = $options->get('registrationDefaults'))
+		if ($registrationDefaults = $options->get('registrationDefaults'))
 		{
 			$writer->bulkSet($registrationDefaults, array('ignoreInvalidFields' => true));
 		}
@@ -279,7 +279,9 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 						$this->getModelFromCache('XenForo_Model_Avatar')->applyAvatar($user['user_id'], $avatarFile)
 					);
 				}
-				catch (XenForo_Exception $e) {}
+				catch (XenForo_Exception $e)
+				{
+				}
 			}
 
 			@unlink($avatarFile);
@@ -289,7 +291,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		XenForo_Model_Ip::log($user['user_id'], 'user', $user['user_id'], 'register');
 
-		XenForo_Helper_Cookie::setCookie($provider.'AuthId', $profile['auth_id'], 14 * 86400);
+		XenForo_Helper_Cookie::setCookie($provider . 'AuthId', $profile['auth_id'], 14 * 86400);
 
 		XenForo_Application::getSession()->changeUserId($user['user_id']);
 		XenForo_Visitor::setup($user['user_id']);
@@ -323,7 +325,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 				throw $this->responseException($this->responseError(new XenForo_Phrase('sorry_you_too_young_to_create_an_account')));
 			}
 		}
-		elseif($requireDob)
+		elseif ($requireDob)
 		{
 			throw $this->responseException($this->responseError(new XenForo_Phrase('please_enter_valid_date_of_birth')));
 		}

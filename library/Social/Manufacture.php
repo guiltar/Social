@@ -8,7 +8,8 @@ class Social_Manufacture
 
 	public static final function getInstance()
 	{
-		if (!self::$_instance) {
+		if (!self::$_instance)
+		{
 			self::$_instance = new self;
 		}
 
@@ -20,7 +21,8 @@ class Social_Manufacture
 	 */
 	protected function _getDb()
 	{
-		if ($this->_db === null) {
+		if ($this->_db === null)
+		{
 			$this->_db = XenForo_Application::getDb();
 		}
 
@@ -29,38 +31,41 @@ class Social_Manufacture
 
 	public static function build($existingAddOn, $addOnData)
 	{
-		if (XenForo_Application::$versionId < 1010270) {
+		if (XenForo_Application::$versionId < 1010270)
+		{
 			throw new XenForo_Exception(new XenForo_Phrase('social_requires_minimum_xenforo_version', array('version' => '1.1.2')));
 		}
 
 		/* @var $addOnModel XenForo_Model_AddOn*/
 		$addOnModel = XenForo_Model::create('XenForo_Model_AddOn');
 
-		if(!$addOnModel->getAddOnById('TMS')){
+		if (!$addOnModel->getAddOnById('TMS'))
+		{
 			throw new XenForo_Exception(new XenForo_Phrase('social_requires_tms'));
 		}
 
 
 		$addOnDw = XenForo_DataWriter::create('XenForo_DataWriter_AddOn');
-		if($addOnDw->setExistingData('Twitter'))
+		if ($addOnDw->setExistingData('Twitter'))
 		{
-			$addOnDw->set('uninstall_callback_class','');
-			$addOnDw->set('uninstall_callback_method','');
+			$addOnDw->set('uninstall_callback_class', '');
+			$addOnDw->set('uninstall_callback_method', '');
 			$addOnDw->delete();
 		}
 
 		$addOnDw = XenForo_DataWriter::create('XenForo_DataWriter_AddOn');
-		if($addOnDw->setExistingData('Vkontakte'))
+		if ($addOnDw->setExistingData('Vkontakte'))
 		{
-			$addOnDw->set('uninstall_callback_class','');
-			$addOnDw->set('uninstall_callback_method','');
+			$addOnDw->set('uninstall_callback_class', '');
+			$addOnDw->set('uninstall_callback_method', '');
 			$addOnDw->delete();
 		}
 
 		$startVersion = 1;
 		$endVersion = $addOnData['version_id'];
 
-		if ($existingAddOn) {
+		if ($existingAddOn)
+		{
 			$startVersion = $existingAddOn['version_id'] + 1;
 		}
 
@@ -73,7 +78,8 @@ class Social_Manufacture
 		{
 			$method = '_installVersion' . $i;
 
-			if (method_exists($install, $method) === false) {
+			if (method_exists($install, $method) === false)
+			{
 				continue;
 			}
 
@@ -99,7 +105,7 @@ class Social_Manufacture
             WHERE provider = 'vkontakte'
         ");
 
-		if(!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'vkontakte_auth_id\''))
+		if (!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'vkontakte_auth_id\''))
 		{
 			$db->query("
 				ALTER TABLE xf_user_profile
@@ -115,7 +121,7 @@ class Social_Manufacture
 		}
 
 		// Twitter
-		if(!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'twitter_auth_id\''))
+		if (!$db->fetchRow('SHOW columns FROM xf_user_profile WHERE field = \'twitter_auth_id\''))
 		{
 			$db->query("
 				ALTER TABLE xf_user_profile
@@ -137,7 +143,8 @@ class Social_Manufacture
 		{
 			$method = '_uninstallStep' . $i;
 
-			if (method_exists($uninstall, $method) === false) {
+			if (method_exists($uninstall, $method) === false)
+			{
 				continue;
 			}
 
@@ -151,7 +158,7 @@ class Social_Manufacture
 	{
 		$db = $this->_getDb();
 
-        $db->query("
+		$db->query("
       			ALTER TABLE xf_user_profile
       			DROP twitter_auth_id,
       			DROP google_auth_id,
