@@ -16,13 +16,25 @@
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="social" display_order="31"/>
+      <relation group_id="social" display_order="5"/>
     </option>
     <option option_id="googleAppSecret" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="social" display_order="32"/>
+      <relation group_id="social" display_order="6"/>
+    </option>
+    <option option_id="linkedinConsumerKey" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="16"/>
+    </option>
+    <option option_id="linkedinConsumerSecret" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="social" display_order="15"/>
     </option>
     <option option_id="twitterConsumerKey" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
@@ -62,7 +74,11 @@
     <phrase title="option_googleAppSecret" version_id="0" version_string=""><![CDATA[Google Client Secret]]></phrase>
     <phrase title="option_googleAppSecret_explain" version_id="1" version_string="Beta 1"><![CDATA[The secret for the <a href="https://code.google.com/apis/console#access" target="_blank">Google application</a> you created for this domain.]]></phrase>
     <phrase title="option_group_social" version_id="1" version_string="Beta 1"><![CDATA[Social Network Integration]]></phrase>
-    <phrase title="option_group_social_description" version_id="0" version_string=""></phrase>
+    <phrase title="option_group_social_description" version_id="0" version_string=""><![CDATA[]]></phrase>
+    <phrase title="option_linkedinConsumerKey" version_id="1" version_string="Beta 2"><![CDATA[LinkedIn Consumer Key]]></phrase>
+    <phrase title="option_linkedinConsumerKey_explain" version_id="1" version_string="Beta 2"><![CDATA[The Key that is associated with your <a href="https://www.linkedin.com/secure/developer?newapp=" target="_blank">LinkedIn application</a> for this domain.]]></phrase>
+    <phrase title="option_linkedinConsumerSecret" version_id="1" version_string="Beta 2"><![CDATA[LinkedIn Consumer Secret]]></phrase>
+    <phrase title="option_linkedinConsumerSecret_explain" version_id="1" version_string="Beta 2"><![CDATA[The secret for the <a href="https://www.linkedin.com/secure/developer" target="_blank">LinkedIn application</a> application you created for this domain.]]></phrase>
     <phrase title="option_twitterConsumerKey" version_id="1" version_string="Beta 1"><![CDATA[Twitter Consumer Key]]></phrase>
     <phrase title="option_twitterConsumerKey_explain" version_id="1" version_string="Beta 1"><![CDATA[The Key that is associated with your <a href="https://dev.twitter.com/apps/new" target="_blank">Twitter application</a> for this domain.]]></phrase>
     <phrase title="option_twitterConsumerSecret" version_id="1" version_string="Beta 1"><![CDATA[Twitter Consumer Secret]]></phrase>
@@ -81,9 +97,12 @@
     <phrase title="social_google_integration" version_id="0" version_string=""><![CDATA[Google Integration]]></phrase>
     <phrase title="social_invalid_access_token" version_id="0" version_string=""><![CDATA[Invalid access token]]></phrase>
     <phrase title="social_invalid_authorization_code" version_id="0" version_string=""><![CDATA[Invalid authorization code]]></phrase>
+    <phrase title="social_linkedin_integration" version_id="1" version_string="Beta 2"><![CDATA[LinkedIn Integration]]></phrase>
     <phrase title="social_login_with_google" version_id="0" version_string=""><![CDATA[Login with Google]]></phrase>
+    <phrase title="social_login_with_linkedin" version_id="1" version_string="Beta 2"><![CDATA[Login with LinkedIn]]></phrase>
     <phrase title="social_login_with_twitter" version_id="0" version_string=""><![CDATA[Login with Twitter]]></phrase>
     <phrase title="social_login_with_vk" version_id="0" version_string=""><![CDATA[Login with VK]]></phrase>
+    <phrase title="social_provider_did_not_return_valid_request_token" version_id="1" version_string="Beta 2"><![CDATA[{provider} didn't reurn a valid request token.]]></phrase>
     <phrase title="social_provider_integration" version_id="0" version_string=""><![CDATA[{provider} integration]]></phrase>
     <phrase title="social_provider_not_properly_configured" version_id="0" version_string=""><![CDATA[Provider not properly configured.]]></phrase>
     <phrase title="social_requires_minimum_xenforo_version" version_id="0" version_string=""><![CDATA[Minimum XenForo version required: {version}]]></phrase>
@@ -151,14 +170,14 @@ Associating with {provider} makes it easier to share interesting things with you
 		</dl>		
 	</form>
 </xen:if>]]></template>
-    <template title="social_login_buttons.css" version_id="1" version_string="Beta 1"><![CDATA[html body a.googleLogin,
+    <template title="social_login_buttons.css" version_id="1" version_string="Beta 2"><![CDATA[html body a.googleLogin,
 html body a.fbLogin,
-html body a.linkedInLogin,
+html body a.linkedinLogin,
 html body a.twitterLogin,
 html body a.vkLogin,
 html body #loginBar li a.googleLogin,
 html body #loginBar li a.fbLogin,
-html body #loginBar li a.linkedInLogin,
+html body #loginBar li a.linkedinLogin,
 html body #loginBar li a.twitterLogin,
 html body #loginBar li a.vkLogin
 {
@@ -175,12 +194,12 @@ html body #loginBar li a.vkLogin
 }
 	html body a.googleLogin:hover,
 	html body a.fbLogin:hover,
-	html body a.linkedInLogin:hover,
+	html body a.linkedinLogin:hover,
 	html body a.twitterLogin:hover,
 	html body a.vkLogin:hover,
 	html body #loginBar li a.googleLogin:hover,
 	html body #loginBar li a.fbLogin:hover,
-	html body #loginBar li a.linkedInLogin:hover,
+	html body #loginBar li a.linkedinLogin:hover,
 	html body #loginBar li a.twitterLogin:hover,
 	html body #loginBar li a.vkLogin:hover
 	{
@@ -188,12 +207,12 @@ html body #loginBar li a.vkLogin
 	}
 	html body .googleLogin span,
 	html body .fbLogin span,
-	html body .linkedInLogin span,
+	html body .linkedinLogin span,
 	html body .twitterLogin span,
 	html body .vkLogin span,
 	html body #loginBar li .googleLogin span,
 	html body #loginBar li .fbLogin span,
-	html body #loginBar li .linkedInLogin span,
+	html body #loginBar li .linkedinLogin span,
 	html body #loginBar li .twitterLogin span,
 	html body #loginBar li .vkLogin span
 	{
@@ -211,7 +230,7 @@ html body #loginBar li a.vkLogin
 	}
 		html body .googleLogin:active span,
 		html body .fbLogin:active span,
-		html body .linkedInLogin:active span,
+		html body .linkedinLogin:active span,
 		html body .twitterLogin:active span,
 		html body .vkLogin:active span
 		{
@@ -277,15 +296,15 @@ html body a.twitterLogin
 		background-position: -462px -52px;
 	}
 
-html body a.linkedInLogin
+html body a.linkedinLogin
 {
 	background-position: -616px 0;
 }
-	html body a.linkedInLogin:hover
+	html body a.linkedinLogin:hover
 	{
 		background-position: -616px -26px;
 	}
-	html body a.linkedInLogin:active
+	html body a.linkedinLogin:active
 	{
 		background-position: -616px -52px;
 	}]]></template>
@@ -404,12 +423,15 @@ html body a.linkedInLogin
   </templates>
   <bb_code_media_sites/>
   <template_modifications>
-    <modification title="social_account_wrapper_sidebar_settings" template_title="account_wrapper" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+    <modification title="social_account_wrapper_sidebar_settings" template_title="account_wrapper" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="1" version_string="Beta 2" active="1">
       <search_value><![CDATA[#{xen:phrase facebook_integration}</a></li></xen:if>#s]]></search_value>
       <replace_value><![CDATA[$0
 <xen:if is="{$xenOptions.twitterConsumerKey}"><li><a
 	class="{xen:if "{$selectedKey} == 'account/twitter'", 'secondaryContent', 'primaryContent'}"
 	href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.linkedinConsumerKey}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/linkedin'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/linkedin}">{xen:phrase social_linkedin_integration}</a></li></xen:if>
 <xen:if is="{$xenOptions.vkAppId}"><li><a
 	class="{xen:if "{$selectedKey} == 'account/vk'", 'secondaryContent', 'primaryContent'}"
 	href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
@@ -417,7 +439,7 @@ html body a.linkedInLogin
 	class="{xen:if "{$selectedKey} == 'account/google'", 'secondaryContent', 'primaryContent'}"
 	href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace_value>
     </modification>
-    <modification title="social_helper_login_form" template_title="helper_login_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+    <modification title="social_helper_login_form" template_title="helper_login_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="1" version_string="Beta 2" active="1">
       <search_value><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></search_value>
       <replace_value><![CDATA[<xen:require css="social_login_buttons.css" />
 
@@ -430,6 +452,10 @@ html body a.linkedInLogin
 		<dt></dt>
 		<dd><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></dd>
 	</xen:if>
+	<xen:if is="{$xenOptions.linkedinConsumerKey}">
+		<dt></dt>
+		<dd><a href="{xen:link register/linkedin, '', 'reg=1'}" class="linkedinLogin"><span>{xen:phrase social_login_with_linkedin}</span></a></dd>
+	</xen:if>
 	<xen:if is="{$xenOptions.vkAppId}">
 		<dt></dt>
 		<dd><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></dd>
@@ -440,14 +466,17 @@ html body a.linkedInLogin
 	</xen:if>
 </dl> ]]></replace_value>
     </modification>
-    <modification title="social_login_bar_item" template_title="login_bar_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+    <modification title="social_login_bar_item" template_title="login_bar_form" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="1" version_string="Beta 2" active="1">
       <search_value><![CDATA[#<xen:hook name="login_bar_eauth_set">.*<xen:if is="{\$xenOptions.facebookAppId}">(.*?<xen:hook name="login_bar_eauth_items">.*?)(</xen:hook>)#s]]></search_value>
-      <replace_value><![CDATA[<xen:hook name="login_bar_eauth_set"><xen:if is="{$xenOptions.facebookAppId} or {$xenOptions.twitterConsumerKey} or {$xenOptions.vkAppId} or {$xenOptions.googleAppId}">
+      <replace_value><![CDATA[<xen:hook name="login_bar_eauth_set"><xen:if is="{$xenOptions.facebookAppId} or {$xenOptions.twitterConsumerKey} or {$xenOptions.linkedinConsumerKey} or {$xenOptions.vkAppId} or {$xenOptions.googleAppId}">
 $1
 	<xen:require css="social_login_buttons.css" />
 
 	<xen:if is="{$xenOptions.twitterConsumerKey}">
 		<li><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></li>
+	</xen:if>
+	<xen:if is="{$xenOptions.linkedinConsumerKey}">
+		<li><a href="{xen:link register/linkedin, '', 'reg=1'}" class="linkedinLogin"><span>{xen:phrase social_login_with_linkedin}</span></a></li>
 	</xen:if>
 	<xen:if is="{$xenOptions.vkAppId}">
 		<li><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></li>
@@ -457,10 +486,11 @@ $1
 	</xen:if>
 $2]]></replace_value>
     </modification>
-    <modification title="social_navigation_visitor_tab_link" template_title="navigation_visitor_tab" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
+    <modification title="social_navigation_visitor_tab_link" template_title="navigation_visitor_tab" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="1" version_string="Beta 2" active="1">
       <search_value><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></search_value>
       <replace_value><![CDATA[$0
 <xen:if is="{$xenOptions.twitterConsumerKey}"><li><a href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.linkedinConsumerKey}"><li><a href="{xen:link account/linkedin}">{xen:phrase social_linkedin_integration}</a></li></xen:if>
 <xen:if is="{$xenOptions.vkAppId}"><li><a href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
 <xen:if is="{$xenOptions.googleAppId}"><li><a href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace_value>
     </modification>

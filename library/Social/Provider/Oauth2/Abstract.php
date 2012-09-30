@@ -26,6 +26,11 @@ abstract class Social_Provider_Oauth2_Abstract extends Social_Provider_Abstract
 	}
 
 	/**
+	 * Takes a code (with a redirect URL) and gets an access token.
+	 *
+	 * @param string $url
+	 * @param string $code
+	 *
 	 * @return array|false Array of info (may be error); false if Provider integration not active
 	 */
 	public function getAccessToken($redirectUri)

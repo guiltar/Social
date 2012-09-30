@@ -31,6 +31,13 @@ abstract class Social_Provider_Oauth_Abstract extends Social_Provider_Abstract
 	public function getAccessToken($redirectUri)
 	{
 		$input = $this->_controller->getInput()->getInput();
+		if(empty($input['oauth_token']))
+		{
+			throw $this->_controller->responseException($this->_controller->responseError(new XenForo_Phrase(
+					'social_provider_did_not_return_valid_request_token',
+					array('provider' => new XenForo_Phrase('social_' . $this->provider))))
+			);
+		}
 		$request = new Zend_Oauth_Token_Request();
 		$request->setToken($input['oauth_token']);
 		//$request->setParam('oauth_verifier', $input['oauth_verifier']);
