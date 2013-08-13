@@ -37,6 +37,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 
 		$token = $helper->authenticate($redirectUri);
 		$profile = $helper->getProfile();
+		$permanentInfo = $helper->getPermanentUserInfo($profile);
 		$provider = $helper->provider;
 
 		if (!$profile['auth_id'])
@@ -54,6 +55,10 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 		if ($providerAssoc && $userModel->getUserById($providerAssoc['user_id']))
 		{
 			$redirect = XenForo_Application::getSession()->get($provider . 'Redirect');
+			
+			$userExternalModel->updateExternalAuthAssociationExtra(
+				$providerAssoc['user_id'], $provider, array_merge(array('token' => $token), $permanentInfo)
+			);
 
 			XenForo_Helper_Cookie::setCookie($provider . 'AuthId', $profile['auth_id'], 14 * 86400);
 			$userModel->setUserRememberCookie($providerAssoc['user_id']);
@@ -192,7 +197,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 				return $this->responseError($error);
 			}
 
-			$userExternalModel->updateExternalAuthAssociation($provider, $profile['auth_id'], $userId, null, $permanentInfo);
+			$userExternalModel->updateExternalAuthAssociation($provider, $profile['auth_id'], $userId, null, array_merge(array('token' => $token), $permanentInfo));
 			XenForo_Helper_Cookie::setCookie($provider . 'AuthId', $profile['auth_id'], 14 * 86400);
 
 			$redirect = XenForo_Application::getSession()->get($provider . 'Redirect');
@@ -287,7 +292,7 @@ class Social_ControllerPublic_Register extends XFCP_Social_ControllerPublic_Regi
 			@unlink($avatarFile);
 		}
 
-		$userExternalModel->updateExternalAuthAssociation($provider, $profile['auth_id'], $user['user_id'], null, $permanentInfo);
+		$userExternalModel->updateExternalAuthAssociation($provider, $profile['auth_id'], $user['user_id'], null, array_merge(array('token' => $token), $permanentInfo));
 
 		XenForo_Model_Ip::log($user['user_id'], 'user', $user['user_id'], 'register');
 

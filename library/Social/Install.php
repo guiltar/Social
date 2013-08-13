@@ -36,12 +36,15 @@ class Social_Install
 			throw new XenForo_Exception(new XenForo_Phrase('social_requires_minimum_xenforo_version', array('version' => '1.1.2')));
 		}
 
-		/* @var $addOnModel XenForo_Model_AddOn*/
-		$addOnModel = XenForo_Model::create('XenForo_Model_AddOn');
-
-		if (!$addOnModel->getAddOnById('TMS'))
+		if (XenForo_Application::$versionId < 1020000)
 		{
-			throw new XenForo_Exception(new XenForo_Phrase('social_requires_tms'));
+			/* @var $addOnModel XenForo_Model_AddOn*/
+			$addOnModel = XenForo_Model::create('XenForo_Model_AddOn');
+
+			if (!$addOnModel->getAddOnById('TMS'))
+			{
+				throw new XenForo_Exception(new XenForo_Phrase('social_requires_tms'));
+			}
 		}
 
 

@@ -402,6 +402,68 @@ html body a.linkedInLogin
 <input type="hidden" name="redirect" value="{$redirect}" />
 </form>]]></template>
   </templates>
+  <public_template_modifications>
+    <modification modification_key="social_account_wrapper_sidebar_settings" template="account_wrapper" execute_order="10" action="preg_replace" description="" enabled="1">
+      <find><![CDATA[#{xen:phrase facebook_integration}</a></li></xen:if>#s]]></find>
+      <replace><![CDATA[$0
+<xen:if is="{$xenOptions.twitterConsumerKey}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/twitter'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.vkAppId}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/vk'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.googleAppId}"><li><a
+	class="{xen:if "{$selectedKey} == 'account/google'", 'secondaryContent', 'primaryContent'}"
+	href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace>
+    </modification>
+    <modification modification_key="social_helper_login_form" template="helper_login_form" execute_order="10" action="preg_replace" description="" enabled="1">
+      <find><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></find>
+      <replace><![CDATA[<xen:require css="social_login_buttons.css" />
+
+<dl class="ctrlUnit">
+	<xen:if is="{$xenOptions.facebookAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/facebook, '', 'reg=1'}" class="fbLogin"><span>{xen:phrase login_with_facebook}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.twitterConsumerKey}">
+		<dt></dt>
+		<dd><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.vkAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></dd>
+	</xen:if>
+	<xen:if is="{$xenOptions.googleAppId}">
+		<dt></dt>
+		<dd><a href="{xen:link register/google, '', 'reg=1'}" class="googleLogin"><span>{xen:phrase social_login_with_google}</span></a></dd>
+	</xen:if>
+</dl> ]]></replace>
+    </modification>
+    <modification modification_key="social_login_bar_item" template="login_bar_form" execute_order="10" action="preg_replace" description="" enabled="1">
+      <find><![CDATA[#<xen:hook name="login_bar_eauth_set">.*<xen:if is="{\$xenOptions.facebookAppId}">(.*?<xen:hook name="login_bar_eauth_items">.*?)(</xen:hook>)#s]]></find>
+      <replace><![CDATA[<xen:hook name="login_bar_eauth_set"><xen:if is="{$xenOptions.facebookAppId} or {$xenOptions.twitterConsumerKey} or {$xenOptions.vkAppId} or {$xenOptions.googleAppId}">
+$1
+	<xen:require css="social_login_buttons.css" />
+
+	<xen:if is="{$xenOptions.twitterConsumerKey}">
+		<li><a href="{xen:link register/twitter, '', 'reg=1'}" class="twitterLogin"><span>{xen:phrase social_login_with_twitter}</span></a></li>
+	</xen:if>
+	<xen:if is="{$xenOptions.vkAppId}">
+		<li><a href="{xen:link register/vk, '', 'reg=1'}" class="vkLogin"><span>{xen:phrase social_login_with_vk}</span></a></li>
+	</xen:if>
+	<xen:if is="{$xenOptions.googleAppId}">
+		<li><a href="{xen:link register/google, '', 'reg=1'}" class="googleLogin"><span>{xen:phrase social_login_with_google}</span></a></li>
+	</xen:if>
+$2]]></replace>
+    </modification>
+    <modification modification_key="social_navigation_visitor_tab_link" template="navigation_visitor_tab" execute_order="10" action="preg_replace"  description="" enabled="1">
+      <find><![CDATA[#<xen:if is="{\$xenOptions.facebookAppId}">.*?</xen:if>#s]]></find>
+      <replace><![CDATA[$0
+<xen:if is="{$xenOptions.twitterConsumerKey}"><li><a href="{xen:link account/twitter}">{xen:phrase social_twitter_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.vkAppId}"><li><a href="{xen:link account/vk}">{xen:phrase social_vk_integration}</a></li></xen:if>
+<xen:if is="{$xenOptions.googleAppId}"><li><a href="{xen:link account/google}">{xen:phrase social_google_integration}</a></li></xen:if>]]></replace>
+    </modification>
+  </public_template_modifications>
   <bb_code_media_sites/>
   <template_modifications>
     <modification title="social_account_wrapper_sidebar_settings" template_title="account_wrapper" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="" version_id="0" version_string="" active="1">
